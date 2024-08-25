@@ -8,15 +8,22 @@
 typedef struct s_stack
 {
 	char			tag;
-	int				value;
+	int				*elements;
 	int				size;
-	struct s_stack	*next;
 }					t_stack;
+
+typedef	struct	s_state
+{
+	t_stack			*a;
+	t_stack			*b;
+	char			**moves;
+	struct s_state	*next;
+}					t_state
 
 typedef enum e_bool
 {
-	false,
-	true
+	FALSE,
+	TRUE
 }					t_bool;
 
 void				do_swap(t_stack **stack, t_bool print);

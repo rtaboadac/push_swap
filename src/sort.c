@@ -10,31 +10,30 @@ void	sort_stack(t_stack **a, t_stack **b)
 		sort_large(a, b);
 }
 
-void	sort_three(t_stack **a)
+void	sort_three(t_stack **stack)
 {
 	int	first;
 	int	second;
 	int	third;
 
-	first = (*a)->value;
-	second = (*a)->next->value;
-	third = (*a)->next->next->value;
-	if (first > second && second < third && third > first)
-		do_swap(a, true);
-	else if (first > second && second > third && third < first)
-	{
-		do_swap(a, true);
-		do_reverse_rotate(a, true);
-	}
-	else if (first > second && second < third && third < first)
-		do_rotate(a, true);
-	else if (first < second && second > third && third > first)
-	{
-		do_swap(a, true);
-		do_rotate(a, true);
-	}
-	else if (first < second && second > third && third < first)
-		do_reverse_rotate(a, true);
+	first = (*stack)->value;
+	second = (*stack)->next->value;
+	third = (*stack)->next->next->value;
+	if (first > second && second < third)
+		return (do_swap(stack, TRUE));
+	if (first > second && second > third && third < first)
+		return (do_swap(stack, TRUE), do_reverse_rotate(stack, TRUE));
+	if (first > second && second < third && third < first)
+		return (do_rotate(stack, TRUE));
+	if (first < second && second > third && third > first)
+		return (do_swap(stack, TRUE), do_rotate(stack, TRUE));
+	if (first < second && second > third && third < first)
+		return (do_reverse_rotate(stack, TRUE));
+}
+
+void	sort_five(t_stack **a, t_stack **b)
+{
+
 }
 
 void	sort_large(t_stack **a, t_stack **b)
