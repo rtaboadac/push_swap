@@ -1,47 +1,49 @@
-# Colores
-GREEN = \033[0;32m
-CYAN = \033[0;36m
-RED = \033[0;31m
-NC = \033[0m
 
 NAME = push_swap
-BONUS = checker
 
-INC_DIR = inc/
-SRC_DIR = src/
-BONUS_DIR = bonus/
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
 
-SRC_FILES = main.c operations.c operations_combined.c utils.c sort.c
-BONUS_FILES = main_bonus.c checker_bonus.c
+SRC_DIR = ./src/
+INC_DIR = ./includes
+LIBFT_DIR = ./lib/libft
+FT_PRINTF_DIR = ./lib/ft_printf
+
+
+SRC_FILES = combined_operations.c check.c operations.c push_swap.c sort_utils.c sort.c stack_helpers.c stack_setter.c stack_utils.c stack.c
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC_FILES))
-SRCS_BONUS = $(addprefix $(BONUS_DIR), $(BONUS_FILES))
 OBJS = $(SRCS:.c=.o)
-OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
-COMPILER = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -I$(INC_DIR)
+LIBFT = $(LIBFT_DIR)/libft.a
+FT_PRINTF = $(FT_PRINTF_DIR)/libftprintf.a
+
+INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR) -I$(FT_PRINTF_DIR)
+
+$(NAME): $(OBJS) $(LIBFT) $(FT_PRINTF)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(FT_PRINTF) -o $(NAME)
+
+%.o: %.c $(INC_DIR)/push_swap.h
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(LIBFT):
+	@$(MAKE) -C $(LIBFT_DIR)
+
+$(FT_PRINTF):
+	@$(MAKE) -C $(FT_PRINTF_DIR)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	@echo "$(CYAN)Compiling $(NAME)...$(NC)"
-	$(COMPILER) $(CFLAGS) -o $(NAME) $(OBJS)
-	@echo "$(GREEN)$(NAME) compiled successfully! ✅$(NC)"
-
-bonus: $(OBJS_BONUS)
-	@echo "$(CYAN)Compiling $(BONUS)...$(NC)"
-	$(COMPILER) $(CFLAGS) -o $(BONUS) $(OBJS_BONUS)
-	@echo "$(GREEN)$(BONUS) compiled successfully! ✅$(NC)"
-
 clean:
-	@echo "$(RED)Cleaning object files... 🧹$(NC)"
-	rm -f $(OBJS) $(OBJS_BONUS)
+	@rm -f $(OBJS)
+	@$(MAKE) clean -C $(LIBFT_DIR)
+	@$(MAKE) clean -C $(FT_PRINTF_DIR)
 
 fclean: clean
-	@echo "$(RED)Removing binaries... 🗑️$(NC)"
-	rm -f $(NAME) $(BONUS)
+	@rm -f $(NAME)
+	@$(MAKE) fclean -C $(LIBFT_DIR)
+	@$(MAKE) fclean -C $(FT_PRINTF_DIR)
 
 re: fclean all
 
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re

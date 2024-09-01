@@ -1,21 +1,68 @@
-#include "push_swap.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rtaboada <rtaboada@student.42barcelona.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/02 00:10:27 by rtaboada          #+#    #+#             */
+/*   Updated: 2024/09/02 00:11:08 by rtaboada         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/push_swap.h"
+
+static void	free_arr(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+static int	arr_len(char **arr)
+{
+	int	len;
+
+	len = 0;
+	while (arr[len])
+		len++;
+	return (len);
+}
+
+static t_stack	*init_stack(int argc, char **argv)
+{
+	t_stack	*stack;
+	char	**input;
+
+	if (argc == 1)
+		input = ft_split(*argv, ' ');
+	if (!argv)
+		return (NULL);
+	stack = create_stack(arr_len(input), input, 'a');
+	if (argc == 1)
+		free_arr(input);
+	return (stack);
+}
 
 int	main(int argc, char **argv)
 {
 	t_stack	*a;
 	t_stack	*b;
 
-	if (argc < 2)
+	if (argc == 1)
 		return (0);
-	a = NULL;
+	a = init_stack(argc - 1, argv + 1);
 	b = NULL;
-	if (!parse_arguments(argc, argv, &a))
-	{
-		fprintf(stderr, "Error\n");
-		return (1);
-	}
+	if (!a)
+		return (ft_printf("Error\n"));
+	if (!a->next)
+		return (free_stack(&a), 0);
 	sort_stack(&a, &b);
 	free_stack(&a);
-	free_stack(&b);
-	return (0);
 }
