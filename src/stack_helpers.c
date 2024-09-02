@@ -6,7 +6,7 @@
 /*   By: rtaboada <rtaboada@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 21:41:14 by rtaboada          #+#    #+#             */
-/*   Updated: 2024/09/02 00:11:18 by rtaboada         ###   ########.fr       */
+/*   Updated: 2024/09/02 18:51:41 by rtaboada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_bool	set_node_num(char *num, t_stack *node)
 		if (*num < '0' || *num > '9')
 			return (FALSE);
 		nbr = nbr * 10 + *num - '0';
-		if ((nbr >= INT_MAX && sign > 0) || (nbr > INT_MAX && sign < 0))
+		if ((nbr * sign > INT_MAX) || nbr * sign < INT_MIN)
 			return (FALSE);
 		num++;
 	}

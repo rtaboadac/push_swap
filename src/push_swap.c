@@ -6,7 +6,7 @@
 /*   By: rtaboada <rtaboada@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 00:10:27 by rtaboada          #+#    #+#             */
-/*   Updated: 2024/09/02 00:11:08 by rtaboada         ###   ########.fr       */
+/*   Updated: 2024/09/02 18:54:36 by rtaboada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static t_stack	*init_stack(int argc, char **argv)
 
 	if (argc == 1)
 		input = ft_split(*argv, ' ');
+	else
+		input = argv;
 	if (!argv)
 		return (NULL);
 	stack = create_stack(arr_len(input), input, 'a');
@@ -60,7 +62,7 @@ int	main(int argc, char **argv)
 	a = init_stack(argc - 1, argv + 1);
 	b = NULL;
 	if (!a)
-		return (ft_printf("Error\n"));
+		return (write(2, "Error\n", 6));
 	if (!a->next)
 		return (free_stack(&a), 0);
 	sort_stack(&a, &b);
